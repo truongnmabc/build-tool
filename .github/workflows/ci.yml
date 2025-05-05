@@ -1,0 +1,66 @@
+name: CI/CD Pipeline
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Determine app to build
+        id: determine-app
+        run: |
+          if [[ "${{ github.event.pull_request.head.ref }}" == feature/tools-* ]]; then
+            echo "APP=tools" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event.pull_request.head.ref }}" == feature/web-* ]]; then
+            echo "APP=web" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event.pull_request.head.ref }}" == feature/admin-* ]]; then
+            echo "APP=admin" >> $GITHUB_OUTPUT
+          else
+            # Check labels
+            LABELS="${{ github.event.pull_request.labels.*.name }}"
+            if [[ "$LABELS" == *"build:tools"* ]]; then
+              echo "APP=tools" >> $GITHUB_OUTPUT
+            elif [[ "$LABELS" == *"build:web"* ]]; then
+              echo "APP=web" >> $GITHUB_OUTPUT
+            elif [[ "$LABELS" == *"build:admin"* ]]; then
+              echo "APP=admin" >> $GITHUB_OUTPUT
+            else
+              echo "APP=all" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Run tests
+        if: steps.determine-app.outputs.APP != 'none'
+        run: |
+          if [ "${{ steps.determine-app.outputs.APP }}" = "all" ]; then
+            pnpm nx run-many --target=test --all
+          else
+            pnpm nx test ${{ steps.determine-app.outputs.APP }}
+          fi
+
+      - name: Build app
+        if: steps.determine-app.outputs.APP != 'none'
+        run: |
+          if [ "${{ steps.determine-app.outputs.APP }}" = "all" ]; then
+            pnpm nx run-many --target=build --all
+          else
+            pnpm nx build ${{ steps.determine-app.outputs.APP }}
+          fi
