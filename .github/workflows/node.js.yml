@@ -25,6 +25,7 @@ jobs:
                   echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> .env
                   echo "AUTH_GITHUB_ID=${{ secrets.AUTH_GITHUB_ID }}" >> .env
                   echo "AUTH_GITHUB_SECRET=${{ secrets.AUTH_GITHUB_SECRET }}" >> .env
+                  echo "AUTH_TRUST_HOST=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
                   echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
                   echo "GTIHUB_OWNER=${{ secrets.GH_OWNER }}" >> .env
                   echo "GITHUB_REPO=${{ secrets.GH_REPO }}" >> .env
