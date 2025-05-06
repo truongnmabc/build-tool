@@ -3,7 +3,15 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from "axios";
+import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
+
+// Extend the Session type to include accessToken
+declare module "next-auth" {
+  interface Session {
+    accessToken?: string;
+  }
+}
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:5070",
