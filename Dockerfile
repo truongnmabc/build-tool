@@ -21,6 +21,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Copy env file first
+COPY .env .env
 
 # Set environment variables for build
 ENV NEXT_TELEMETRY_DISABLED=1
