@@ -17,6 +17,8 @@ export const {
     strategy: "jwt",
     maxAge: 4 * 60 * 60, // 4 hours in seconds
   },
+  secret: process.env.AUTH_SECRET,
+  trustHost: true,
   callbacks: {
     async jwt({ token, account, profile }) {
       if (account) {
