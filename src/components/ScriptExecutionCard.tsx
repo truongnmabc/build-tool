@@ -137,7 +137,7 @@ export const ScriptExecutionCard = ({
             </Select>
           </Form.Item>
 
-          <Form.Item label="Domain" required>
+          <Form.Item label="Domain">
             <Input
               placeholder="Enter domain (.com/.org/.net/.io)"
               value={buildParams.domain}
