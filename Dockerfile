@@ -21,13 +21,15 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Copy env file first
+COPY .env .env.production
+
 # Set environment variables for build
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
 # Install build dependencies
 RUN apk add --no-cache python3 make g++
-COPY .env .env.production
 
 # Log environment variables (excluding sensitive values)
 RUN echo "Environment variables in .env:" && \
@@ -58,6 +60,7 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/next.config.js ./next.config.js
+COPY --from=builder /app/.env ./.env
 
 USER nextjs
 
