@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "ts-node --project tsconfig.server.json src/server/index.ts",
-    "build": "next build && tsc --project tsconfig.server.json",
+    "clean": "rm -rf .next dist",
+    "build": "pnpm clean && next build && tsc --project tsconfig.server.json",
     "start": "NODE_ENV=production node ./dist/server/index.js",
     "lint": "next lint"
   },
@@ -12,9 +13,6 @@
     "@ant-design/icons": "^6.0.0",
     "@auth/core": "^0.39.0",
     "@octokit/rest": "^21.1.1",
-    "@types/cors": "^2.8.17",
-    "@types/dotenv": "^8.2.3",
-    "@types/express": "^5.0.1",
     "antd": "^5.24.9",
     "axios": "^1.9.0",
     "cors": "^2.8.5",
@@ -28,6 +26,9 @@
     "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/dotenv": "^8.2.3",
+    "@types/express": "^5.0.1",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
