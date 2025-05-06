@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
-
+const secret = process.env.AUTH_SECRET;
+console.log("🚀 ~ secret:", secret);
 export const {
   handlers: { GET, POST },
   auth,
@@ -17,7 +18,7 @@ export const {
     strategy: "jwt",
     maxAge: 4 * 60 * 60, // 4 hours in seconds
   },
-  secret: process.env.AUTH_SECRET,
+  secret: secret,
   trustHost: true,
   debug: process.env.NODE_ENV === "development",
   callbacks: {
