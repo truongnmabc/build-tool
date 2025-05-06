@@ -15,11 +15,16 @@ const axiosInstance = axios.create({
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
-    const session = await getSession();
-    if (session?.accessToken) {
-      config.headers.Authorization = `Bearer ${session.accessToken}`;
+    try {
+      const session = await getSession();
+      if (session?.accessToken) {
+        config.headers.Authorization = `Bearer ${session.accessToken}`;
+      }
+      return config;
+    } catch (error) {
+      console.error("Error getting session:", error);
+      return config;
     }
-    return config;
   },
   (error: AxiosError) => {
     return Promise.reject(error);
@@ -31,8 +36,10 @@ axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => response,
   async (error: AxiosError) => {
     if (error.response?.status === 401) {
-      // Handle unauthorized error (e.g., redirect to login)
-      window.location.href = "/auth/signin";
+      // Only redirect if we're not already on the signin page
+      if (!window.location.pathname.startsWith("/auth/signin")) {
+        window.location.href = "/auth/signin";
+      }
     }
     return Promise.reject(error);
   }

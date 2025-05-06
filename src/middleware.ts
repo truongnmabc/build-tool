@@ -5,6 +5,11 @@ export default auth((req) => {
   const isOnAuthPage = req.nextUrl.pathname.startsWith("/auth");
   const isApiRoute = req.nextUrl.pathname.startsWith("/api");
 
+  // Allow access to auth-related API routes
+  if (isApiRoute && req.nextUrl.pathname.startsWith("/api/auth")) {
+    return undefined;
+  }
+
   if (isOnAuthPage) {
     if (isLoggedIn) {
       return Response.redirect(new URL("/", req.nextUrl));
@@ -13,7 +18,12 @@ export default auth((req) => {
   }
 
   if (isApiRoute && !isLoggedIn) {
-    return new Response("Unauthorized", { status: 401 });
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 
   if (!isLoggedIn) {
