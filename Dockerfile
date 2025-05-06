@@ -24,7 +24,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 ENV NODE_ENV production
 
 # Build the application
-RUN pnpm build
+RUN pnpm run build
 
 FROM base AS runner
 WORKDIR /app
