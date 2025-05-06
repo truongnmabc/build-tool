@@ -12,6 +12,12 @@ export const {
     GitHub({
       clientId: process.env.AUTH_GITHUB_ID,
       clientSecret: process.env.AUTH_GITHUB_SECRET,
+      authorization: {
+        params: {
+          redirect_uri:
+            "https://tool.web.abc-elearning.org/api/auth/callback/github",
+        },
+      },
     }),
   ],
   session: {
