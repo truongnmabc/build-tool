@@ -6,11 +6,9 @@ import axios, {
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 
-// Extend the Session type to include accessToken
-declare module "next-auth" {
-  interface Session {
-    accessToken?: string;
-  }
+// Extend the Session type
+interface ExtendedSession extends Session {
+  accessToken?: string;
 }
 
 const axiosInstance = axios.create({
@@ -24,7 +22,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
     try {
-      const session = await getSession();
+      const session = (await getSession()) as ExtendedSession;
       if (session?.accessToken) {
         config.headers.Authorization = `Bearer ${session.accessToken}`;
       }
