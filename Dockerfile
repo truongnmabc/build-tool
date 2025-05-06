@@ -28,6 +28,13 @@ ENV NODE_ENV=production
 # Install build dependencies
 RUN apk add --no-cache python3 make g++
 COPY .env .env.production
+
+# Log environment variables (excluding sensitive values)
+RUN echo "Environment variables in .env:" && \
+    grep -v "^#" .env | grep -v "SECRET" | grep -v "TOKEN" | grep -v "KEY" | grep -v "PASSWORD" | while read line; do \
+    echo "$line" | sed 's/=.*/=***/'; \
+    done
+
 # Clean .next cache and build the application
 RUN rm -rf .next && pnpm run build
 
