@@ -52,6 +52,7 @@ jobs:
             GTIHUB_OWNER=${{ secrets.GH_OWNER }}
             GITHUB_REPO=${{ secrets.GH_REPO }}
             GITHUB_TOKEN=${{ secrets.GH_TOKEN }}
+            NEXTAUTH_URL=https://tool.web.abc-elearning.org
 
       - name: Deploy Image to CapRover
         uses: caprover/deploy-from-github@v1.1.2
