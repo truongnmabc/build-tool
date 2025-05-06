@@ -21,7 +21,6 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Copy env file first
 COPY .env .env.production
 
 # Set environment variables for build
