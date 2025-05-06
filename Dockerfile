@@ -21,7 +21,29 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-COPY .env .env.production
+# Add build arguments
+ARG AUTH_SECRET
+ARG AUTH_GITHUB_ID
+ARG AUTH_GITHUB_SECRET
+ARG NEXT_PUBLIC_API_URL
+ARG GTIHUB_OWNER
+ARG GITHUB_REPO
+ARG GITHUB_TOKEN
+ARG NEXTAUTH_URL
+
+# Create .env file
+RUN echo "AUTH_SECRET=$AUTH_SECRET" > .env && \
+    echo "AUTH_GITHUB_ID=$AUTH_GITHUB_ID" >> .env && \
+    echo "AUTH_GITHUB_SECRET=$AUTH_GITHUB_SECRET" >> .env && \
+    echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL" >> .env && \
+    echo "GTIHUB_OWNER=$GTIHUB_OWNER" >> .env && \
+    echo "GITHUB_REPO=$GITHUB_REPO" >> .env && \
+    echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> .env && \
+    echo "NEXTAUTH_URL=$NEXTAUTH_URL" >> .env && \
+    echo "WS_PORT=5071" >> .env && \
+    echo "NEXT_PUBLIC_WS_URL=$NEXTAUTH_URL" >> .env && \
+    echo "NEXT_PUBLIC_APP_URL=$NEXTAUTH_URL" >> .env
+
 
 # Set environment variables for build
 ENV NEXT_TELEMETRY_DISABLED=1

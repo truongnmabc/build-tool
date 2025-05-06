@@ -1,7 +1,13 @@
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
+
 const secret = process.env.AUTH_SECRET;
+const baseUrl =
+  process.env.NEXTAUTH_URL || "https://tool.web.abc-elearning.org";
+
 console.log("🚀 ~ secret:", secret);
+console.log("🚀 ~ baseUrl:", baseUrl);
+
 export const {
   handlers: { GET, POST },
   auth,
@@ -12,6 +18,11 @@ export const {
     GitHub({
       clientId: process.env.AUTH_GITHUB_ID,
       clientSecret: process.env.AUTH_GITHUB_SECRET,
+      authorization: {
+        params: {
+          redirect_uri: `${baseUrl}/api/auth/callback/github`,
+        },
+      },
     }),
   ],
   session: {
