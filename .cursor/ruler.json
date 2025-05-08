@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "rules": {
+    "maxLineLength": 100,
+    "indentSize": 2,
+    "useTabs": false,
+    "trimTrailingWhitespace": true,
+    "insertFinalNewline": true,
+    "fileExtensions": {
+      "typescript": {
+        "indentSize": 2,
+        "quoteStyle": "single"
+      },
+      "javascript": {
+        "indentSize": 2,
+        "quoteStyle": "single"
+      },
+      "json": {
+        "indentSize": 2
+      },
+      "html": {
+        "indentSize": 2
+      },
+      "css": {
+        "indentSize": 2
+      }
+    },
+    "organizeImports": {
+      "enabled": true,
+      "groupOrder": ["react", "external", "internal", "relative", "styles"]
+    },
+    "formatOnSave": true,
+    "formatOnPaste": true,
+    "formatOnType": true,
+    "defaultFormatter": "prettier",
+    "fileNamingConvention": "camelCase",
+    "typescript": {
+      "preferConst": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noImplicitReturns": true,
+      "noFallthroughCasesInSwitch": true
+    }
+  }
+}

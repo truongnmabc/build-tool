@@ -5,34 +5,16 @@ import { io, Socket } from "socket.io-client";
 
 interface WebSocketContextType {
   socket: Socket | null;
-  isConnected: boolean;
 }
 
-const WebSocketContext = createContext<WebSocketContextType>({
-  socket: null,
-  isConnected: false,
-});
-
-export const useWebSocket = () => useContext(WebSocketContext);
+const WebSocketContext = createContext<WebSocketContextType>({ socket: null });
 
 export function WebSocketProvider({ children }: { children: React.ReactNode }) {
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const socketInstance = io(window.location.origin, {
-      transports: ["websocket"],
-      autoConnect: true,
-    });
-
-    socketInstance.on("connect", () => {
-      console.log("WebSocket connected");
-      setIsConnected(true);
-    });
-
-    socketInstance.on("disconnect", () => {
-      console.log("WebSocket disconnected");
-      setIsConnected(false);
+    const socketInstance = io({
+      path: "/api/ws",
     });
 
     setSocket(socketInstance);
@@ -43,8 +25,10 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <WebSocketContext.Provider value={{ socket, isConnected }}>
+    <WebSocketContext.Provider value={{ socket }}>
       {children}
     </WebSocketContext.Provider>
   );
 }
+
+export const useWebSocket = () => useContext(WebSocketContext);

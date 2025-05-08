@@ -1,4 +1,5 @@
-import SingUp from "@/components/singUp";
+import SignUp from "@/components/auth/signUp";
+
 export default function SignIn() {
-  return <SingUp />;
+  return <SignUp />;
 }

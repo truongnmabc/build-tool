@@ -5,6 +5,7 @@ import axios, {
 } from "axios";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
+import { API_BASE_URL } from "./constants";
 
 // Extend the Session type
 interface ExtendedSession extends Session {
@@ -12,7 +13,7 @@ interface ExtendedSession extends Session {
 }
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:5070",
+  baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },

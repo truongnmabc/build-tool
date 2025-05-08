@@ -1,0 +1,6 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Luôn sử dụng camelCase cho tên dịch vụ.
